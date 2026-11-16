@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #1e293b;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    animation: appear 0.7s ease;
+}
+
+header {
+    background: #4f46e5;
+    color: white;
+    padding: 35px 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 15px;
+    color: #e0e7ff;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+    color: #1e293b;
+}
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label,
+.full-marks label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.input-group input,
+.full-marks input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.input-group input:focus,
+.full-marks input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.full-marks {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3730a3;
+    transform: translateY(-3px);
+}
+
+#resetBtn {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+#resetBtn:hover {
+    background: #cbd5e1;
+}
+
+.results-section {
+    background: #f8fafc;
+    padding: 22px;
+    border-radius: 12px;
+}
+
+.result-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.result-card:hover {
+    transform: translateX(5px);
+}
+
+.result-card p {
+    font-size: 13px;
+    margin-bottom: 7px;
+    color: #475569;
+}
+
+.result-card h3 {
+    font-size: 24px;
+}
+
+.result-card span {
+    font-size: 27px;
+}
+
+.total {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.percentage {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.grade {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.cgpa {
+    background: #fce7f3;
+    color: #be185d;
+}
+
+.progress-container {
+    margin-top: 25px;
+}
+
+.progress-container p {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+#progress {
+    width: 0%;
+    height: 100%;
+    background: #4f46e5;
+    border-radius: 20px;
+    transition: width 0.8s ease;
+}
+
+#performance {
+    font-size: 13px;
+    color: #64748b;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 800px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 15px 10px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    .main-content {
+        padding: 20px 15px;
+    }
+
+    .subjects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}
