@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dot Connect Game</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <!-- Mode Selection Screen -->
+    <div id="modeSelection" class="game-container flex flex-col items-center space-y-6">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6">Dot Connect</h1>
+        <p id="currentUserId" class="text-sm text-gray-600 mb-4">Your ID: Loading...</p>
+
+        <button id="localPlayButton" class="button-primary w-full max-w-xs">Local Multiplayer</button>
+        <button id="onlinePlayButton" class="button-primary w-full max-w-xs">Online Multiplayer</button>
+        <button id="aiPlayButton" class="button-primary w-full max-w-xs">Player vs AI</button>
+    </div>
+
+    <!-- Game Setup Screen (for Local and AI) -->
+    <div id="gameSetup" class="game-container hidden flex-col items-center space-y-6">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6" id="setupTitle">Local Game Setup</h1>
+
+        <div class="flex flex-col items-center space-y-4 w-full">
+            <h2 class="text-2xl font-semibold text-gray-700">Number of Players</h2>
+            <select id="numPlayersSelect" class="input-field w-full max-w-[100px]">
+                <option value="2">2 Players</option>
+                <option value="3">3 Players</option>
+                <option value="4">4 Players</option>
+            </select>
+        </div>
+
+        <div id="playerNamesContainer" class="flex flex-col items-center space-y-4 w-full">
+            <h2 class="text-2xl font-semibold text-gray-700">Player Names</h2>
+            <div class="flex flex-wrap justify-center gap-4 w-full" id="playerInputs">
+                <!-- Player name inputs will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center space-y-4 w-full">
+            <h2 class="text-2xl font-semibold text-gray-700">Grid Size</h2>
+            <div class="flex items-center space-x-4">
+                <input type="number" id="gridRows" value="7" min="2" class="input-field">
+                <span class="text-xl font-bold text-gray-600">X</span>
+                <input type="number" id="gridCols" value="5" min="2" class="input-field">
+            </div>
+        </div>
+
+        <button id="startGameButton" class="button-primary mt-6">Go</button>
+        <button id="backToModeSelectionButton" class="button-primary bg-gray-500 hover:bg-gray-600">Back</button>
+    </div>
+
+    <!-- Online Lobby Screen -->
+    <div id="onlineLobby" class="game-container hidden flex-col items-center space-y-6">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6">Online Lobby</h1>
+        <p class="text-sm text-gray-600 mb-4">Your ID: <span id="lobbyUserId">Loading...</span></p>
+
+        <div class="flex flex-col items-center space-y-4 w-full">
+            <h2 class="text-2xl font-semibold text-gray-700">Create New Game</h2>
+            <div class="flex items-center space-x-4">
+                <label for="createGameNumPlayers" class="text-lg">Players:</label>
+                <select id="createGameNumPlayers" class="input-field w-full max-w-[100px]">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <label for="createGameGridRows" class="text-lg">Size:</label>
+                <input type="number" id="createGameGridRows" value="7" min="2" class="input-field max-w-[80px]">
+                <span class="text-xl font-bold text-gray-600">X</span>
+                <input type="number" id="createGameGridCols" value="5" min="2" class="input-field max-w-[80px]">
+            </div>
+            <button id="createGameButton" class="button-primary w-full max-w-xs">Create Game</button>
+        </div>
+
+        <button id="refreshGamesButton" class="button-primary bg-blue-500 hover:bg-blue-600 w-full max-w-xs">Refresh Games</button>
+
+        <h2 class="text-2xl font-semibold text-gray-700 mt-6">Available Games</h2>
+        <table class="lobby-table">
+            <thead>
+                <tr>
+                    <th>Game ID</th>
+                    <th>Players</th>
+                    <th>Size</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="availableGamesList">
+                <!-- Games will be listed here -->
+                <tr><td colspan="5" class="text-center text-gray-500">No games available. Create one!</td></tr>
+            </tbody>
+        </table>
+
+        <div id="activeGamesContainer">
+            <!-- Active games will be loaded here -->
+        </div>
+
+        <button id="backToModeSelectionFromLobbyButton" class="button-primary bg-gray-500 hover:bg-gray-600 mt-6">Back</button>
+    </div>
+
+    <!-- Game Board Screen -->
+    <div id="gameBoard" class="game-container hidden">
+        <div id="playerScoresContainer" class="flex justify-center items-center w-full mb-6 flex-wrap">
+            <!-- Player scores will be dynamically added here -->
+        </div>
+
+        <div class="flex items-center justify-center mb-6">
+            <span id="playerTurnIndicator" class="player-turn-indicator"></span>
+            <span id="currentPlayerText" class="text-xl font-semibold text-gray-800"></span>
+        </div>
+
+        <canvas id="gameCanvas" class="mb-6"></canvas>
+
+        <button id="goBackButton" class="button-primary">Go Back</button>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center space-y-6">
+            <h2 id="gameOverMessage" class="text-3xl font-bold text-gray-800"></h2>
+            <button id="playAgainButton" class="button-primary">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlertModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center space-y-4">
+            <p id="customAlertMessage" class="text-xl font-semibold text-gray-800"></p>
+            <button class="button-primary" onclick="document.getElementById('customAlertModal').classList.add('hidden')">OK</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="js/auth.js" type="module"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/multiplayer.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
