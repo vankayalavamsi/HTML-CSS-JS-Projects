@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Donor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">🩸 BloodBank</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="donate.html">Donate</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Find a Blood Donor</h2>
+        <form id="searchForm">
+            <div class="form-group">
+                <label>Required Blood Group</label>
+                <select id="searchBlood" required>
+                    <option value="">Select Blood Group</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Search Donors</button>
+        </form>
+
+        <!-- Table to show results will appear here -->
+        <table class="donor-table" id="donorTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- JavaScript will fill this -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="getdonor.js"></script>
+</body>
+</html>
