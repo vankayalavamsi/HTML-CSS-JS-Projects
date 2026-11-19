@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Complaints - Complaint Box</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="logo-icon">DC</div>
+        <span>Complaint Box</span>
+      </a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="student-dashboard.html">Dashboard</a></li>
+        <li><a href="submit-complaint.html">Submit Complaint</a></li>
+        <li><a href="my-complaints.html" class="active">My Complaints</a></li>
+        <li><a href="#" class="btn-logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 class="page-title">My Complaints</h1>
+    <p class="page-subtitle">View and track the status of all complaints you have submitted.</p>
+
+    <div class="table-container">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Complaint ID</th>
+              <th>Category</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Submitted</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="complaints-tbody">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      <div id="empty-state" class="empty-state" style="display:none;">
+        <div class="empty-icon">&#128466;</div>
+        <p>You have not submitted any complaints yet.</p>
+        <a href="submit-complaint.html" class="btn btn-sm btn-primary" style="margin-top:1rem;">Submit a Complaint</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Complaint Detail Modal -->
+  <div id="complaint-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Complaint Details</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-outline" onclick="closeComplaintModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 Digital Complaint Box &mdash; College Project Demo
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

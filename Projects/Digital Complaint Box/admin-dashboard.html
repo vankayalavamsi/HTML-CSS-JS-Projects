@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Complaint Box</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="logo-icon">DC</div>
+        <span>Complaint Box</span>
+      </a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="admin-dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="#" class="btn-logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 class="page-title">Admin Dashboard</h1>
+    <p class="page-subtitle">Overview of all complaints and management tools.</p>
+
+    <!-- Summary Stat Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">&#128203;</div>
+        <div class="stat-number" id="stat-total">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">&#9203;</div>
+        <div class="stat-number" id="stat-pending">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">&#128736;</div>
+        <div class="stat-number" id="stat-in-progress">0</div>
+        <div class="stat-label">In Progress</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">&#9989;</div>
+        <div class="stat-number" id="stat-resolved">0</div>
+        <div class="stat-label">Resolved</div>
+      </div>
+    </div>
+
+    <!-- Complaints Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <h2>All Complaints</h2>
+        <div class="table-filters">
+          <input type="text" id="search-input" placeholder="Search complaints...">
+          <select id="filter-category">
+            <option value="">All Categories</option>
+            <!-- Options populated by JavaScript -->
+          </select>
+          <select id="filter-status">
+            <option value="">All Statuses</option>
+            <!-- Options populated by JavaScript -->
+          </select>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Student ID</th>
+              <th>Category</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      <div id="admin-empty" class="empty-state" style="display:none;">
+        <div class="empty-icon">&#128269;</div>
+        <p>No complaints match your current filters.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Complaint Detail Modal (with status update for admin) -->
+  <div id="complaint-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Complaint Details</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Filled dynamically by JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <label style="font-size:0.85rem;font-weight:600;color:var(--text-light);margin-right:0.3rem;">Update Status:</label>
+        <select id="modal-status-select">
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+        <button id="btn-update-status" class="btn btn-sm btn-success">Update</button>
+        <button class="btn btn-sm btn-outline" onclick="closeComplaintModal()" style="margin-left:auto;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="modal-overlay">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header">
+        <h3>Confirm Deletion</h3>
+        <button class="modal-close" onclick="closeDeleteConfirm()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.95rem;">Are you sure you want to <strong>permanently delete</strong> this complaint? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-outline btn-cancel-delete">Cancel</button>
+        <button id="btn-confirm-delete" class="btn btn-sm btn-danger">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 Digital Complaint Box &mdash; College Project Demo
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Complaint Box</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="logo-icon">DC</div>
+        <span>Complaint Box</span>
+      </a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Student Login</a></li>
+        <li><a href="admin-login.html" class="active">Admin Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="form-container">
+      <h2>Admin Login</h2>
+      <p class="form-subtitle">Enter administrator credentials to access the management dashboard.</p>
+
+      <form id="login-form" class="card" autocomplete="off">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter admin username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter admin password">
+        </div>
+        <div id="login-error" class="form-error"></div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Login</button>
+          <a href="index.html" class="btn btn-outline">Back to Home</a>
+        </div>
+      </form>
+
+      <p style="text-align:center;margin-top:1.2rem;font-size:0.85rem;color:var(--text-light);">
+        Demo credentials &mdash; Username: <strong>admin</strong> &nbsp;|&nbsp; Password: <strong>admin123</strong>
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 Digital Complaint Box &mdash; College Project Demo
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
