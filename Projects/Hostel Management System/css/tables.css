@@ -1,0 +1,85 @@
+/* Hostel-Management-System/css/tables.css */
+.table-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+.table-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.table-card-header h3 { font-size: 16px; font-weight: 600; }
+.table-card-header .btn-group { flex-wrap: wrap; }
+
+.data-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--light);
+    z-index: 1;
+}
+
+.data-table .sort-asc::after { content: ' \25B2'; font-size: 10px; }
+.data-table .sort-desc::after { content: ' \25BC'; font-size: 10px; }
+
+.cell-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.cell-flex-info {
+    display: flex;
+    flex-direction: column;
+}
+.cell-flex-info .name { font-weight: 600; font-size: 13px; }
+.cell-flex-info .sub { font-size: 11px; color: var(--gray-light); }
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--light);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.table-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+.table-footer-left select {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    background: var(--white);
+}
+
+.row-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(99,102,241,0.05);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+.bulk-actions .selected-count { font-weight: 600; color: var(--primary); }
