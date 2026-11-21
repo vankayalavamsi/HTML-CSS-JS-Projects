@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Engineering Scientific Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+<style>
+:root {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --accent: #00bcd4;
+  --text: #fff;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+}
+.calculator {
+  width: 95%;
+  max-width: 420px;
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  margin-top: 20px;
+}
+.display {
+  width: 100%;
+  height: 60px;
+  background: #000;
+  color: #0f0;
+  font-size: 1.8rem;
+  text-align: right;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+}
+.history {
+  color: #aaa;
+  text-align: right;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  height: 20px;
+}
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+button {
+  height: 55px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  background: #2b2b2b;
+  color: #fff;
+  transition: 0.2s;
+}
+button:hover {
+  background: #3b3b3b;
+}
+button.accent {
+  background: var(--accent);
+  color: #000;
+}
+button.equal {
+  background: #4caf50;
+}
+button.clear {
+  background: #f44336;
+}
+button.special {
+  background: #9c27b0;
+}
+
+/* Popup for Equation/Matrix Solver */
+.solver-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+.solver-popup.active { display: flex; }
+.solver-content {
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 380px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+.solver-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  background: #2c2c2e;
+  color: #fff;
+}
+#solverResult, #matrixResult {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #4caf50;
+}
+</style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" id="display" class="display" readonly />
+  <div id="history" class="history"></div>
+
+  <div class="buttons">
+    <!-- Memory and Mode -->
+    <button onclick="memoryClear()">MC</button>
+    <button onclick="memoryRecall()">MR</button>
+    <button onclick="memoryAdd()">M+</button>
+    <button onclick="memorySubtract()">M-</button>
+    <button id="degRadBtn" class="accent" onclick="toggleDegRad()">DEG</button>
+
+    <!-- Basic Operators -->
+    <button onclick="clearDisplay()" class="clear">C</button>
+    <button onclick="del()">DEL</button>
+    <button onclick="append('(')">(</button>
+    <button onclick="append(')')">)</button>
+    <button onclick="append('/')">÷</button>
+
+    <!-- Scientific -->
+    <button onclick="append('7')">7</button>
+    <button onclick="append('8')">8</button>
+    <button onclick="append('9')">9</button>
+    <button onclick="append('*')">×</button>
+    <button onclick="append('sqrt(')">√</button>
+
+    <button onclick="append('4')">4</button>
+    <button onclick="append('5')">5</button>
+    <button onclick="append('6')">6</button>
+    <button onclick="append('-')">−</button>
+    <button onclick="append('^')">xʸ</button>
+
+    <button onclick="append('1')">1</button>
+    <button onclick="append('2')">2</button>
+    <button onclick="append('3')">3</button>
+    <button onclick="append('+')">+</button>
+    <button onclick="factorial()">x!</button>
+
+    <button onclick="append('0')">0</button>
+    <button onclick="append('.')">.</button>
+    <button onclick="append('pi')">π</button>
+    <button onclick="append('e')">e</button>
+    <button onclick="append('%')">%</button>
+
+    <!-- Trig / Inverse / Special -->
+    <button onclick="append('sin(')">sin</button>
+    <button onclick="append('cos(')">cos</button>
+    <button onclick="append('tan(')">tan</button>
+    <button onclick="append('asin(')">asin</button>
+    <button onclick="append('acos(')">acos</button>
+
+    <button onclick="append('atan(')">atan</button>
+    <button onclick="append('log(')">log</button>
+    <button onclick="append('ln(')">ln</button>
+    <button onclick="reciprocal()">1/x</button>
+    <button class="special" onclick="openSolver()">Eqn</button>
+
+    <!-- Calculate -->
+    <button class="equal" onclick="calculate()">=</button>
+    <button class="special" onclick="openMatrixSolver()">Matrix</button>
+  </div>
+</div>
+
+<!-- Equation Solver -->
+<div id="solverPopup" class="solver-popup">
+  <div class="solver-content">
+    <h2>Equation Solver</h2>
+    <input type="text" id="equationInput" placeholder="e.g. 2x+3=9 or 3x^2+2x-1=0" />
+    <input type="text" id="variableInput" placeholder="Variable (e.g. x)" value="x" />
+    <button class="accent" onclick="solveEquation()">Solve</button>
+    <div id="solverResult"></div>
+    <button class="accent" onclick="closeSolver()">Close</button>
+  </div>
+</div>
+
+<!-- Matrix Solver -->
+<div id="matrixPopup" class="solver-popup">
+  <div class="solver-content">
+    <h2>Matrix Solver (2x2)</h2>
+    <p>Enter matrix A and B (for AX = B)</p>
+    <textarea id="matrixA" rows="3" placeholder="A = [[a,b],[c,d]]"></textarea>
+    <textarea id="matrixB" rows="2" placeholder="B = [[x],[y]]"></textarea>
+    <button class="accent" onclick="solveMatrix()">Solve</button>
+    <div id="matrixResult"></div>
+    <button class="accent" onclick="closeMatrixSolver()">Close</button>
+  </div>
+</div>
+
+<script>
+let expression = '';
+let memory = 0;
+let isDegree = true;
+
+const display = document.getElementById('display');
+const history = document.getElementById('history');
+
+function updateDisplay() {
+  display.value = expression || '0';
+}
+
+function append(value) {
+  vibrate(30);
+  expression += value;
+  updateDisplay();
+}
+
+function clearDisplay() {
+  vibrate(50);
+  expression = '';
+  updateDisplay();
+  history.innerHTML = '';
+}
+
+function del() {
+  vibrate(30);
+  expression = expression.slice(0, -1);
+  updateDisplay();
+}
+
+function toggleDegRad() {
+  isDegree = !isDegree;
+  const mode = isDegree ? 'DEG' : 'RAD';
+  document.getElementById('degRadBtn').textContent = mode;
+  vibrate(50);
+}
+
+function calculate() {
+  vibrate(100);
+  try {
+    let expr = expression
+      .replace(/√/g, 'sqrt')
+      .replace(/π/g, 'pi')
+      .replace(/%/g, '/100');
+
+    if (isDegree) {
+      expr = expr.replace(/sin\((.*?)\)/g, (_, x) => `sin((${x}) * pi / 180)`);
+      expr = expr.replace(/cos\((.*?)\)/g, (_, x) => `cos((${x}) * pi / 180)`);
+      expr = expr.replace(/tan\((.*?)\)/g, (_, x) => `tan((${x}) * pi / 180)`);
+      expr = expr.replace(/asin\((.*?)\)/g, (_, x) => `(asin(${x}) * 180 / pi)`);
+      expr = expr.replace(/acos\((.*?)\)/g, (_, x) => `(acos(${x}) * 180 / pi)`);
+      expr = expr.replace(/atan\((.*?)\)/g, (_, x) => `(atan(${x}) * 180 / pi)`);
+    }
+
+    const result = math.evaluate(expr);
+    history.innerHTML = `${expression} =`;
+    expression = result.toString();
+    updateDisplay();
+  } catch {
+    display.value = 'Error';
+  }
+}
+
+function reciprocal() {
+  vibrate(50);
+  try {
+    const result = 1 / parseFloat(expression);
+    expression = result.toString();
+    updateDisplay();
+  } catch {
+    display.value = 'Error';
+  }
+}
+
+function factorial() {
+  vibrate(50);
+  try {
+    const n = parseFloat(expression);
+    if (n < 0) throw new Error('Negative factorial');
+    expression = math.factorial(n).toString();
+    updateDisplay();
+  } catch {
+    display.value = 'Error';
+  }
+}
+
+function memoryClear() { memory = 0; vibrate(50); }
+function memoryRecall() { expression += memory; updateDisplay(); vibrate(50); }
+function memoryAdd() { memory += parseFloat(expression) || 0; vibrate(50); }
+function memorySubtract() { memory -= parseFloat(expression) || 0; vibrate(50); }
+
+function vibrate(ms) {
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
+
+// Equation Solver
+function openSolver() {
+  document.getElementById('solverPopup').classList.add('active');
+}
+function closeSolver() {
+  document.getElementById('solverPopup').classList.remove('active');
+}
+function solveEquation() {
+  const eqn = document.getElementById('equationInput').value.trim();
+  const variable = document.getElementById('variableInput').value.trim() || 'x';
+  const resultDiv = document.getElementById('solverResult');
+  if (!eqn.includes('=')) {
+    resultDiv.innerHTML = "<span style='color:#f66'>Please include '='.</span>";
+    return;
+  }
+  try {
+    const [lhs, rhs] = eqn.split('=');
+    const solution = math.solve(lhs + '-(' + rhs + ')', variable);
+    resultDiv.textContent = `${variable} = ${solution}`;
+  } catch {
+    resultDiv.innerHTML = "<span style='color:#f66'>Unable to solve.</span>";
+  }
+}
+
+// Matrix Solver
+function openMatrixSolver() {
+  document.getElementById('matrixPopup').classList.add('active');
+}
+function closeMatrixSolver() {
+  document.getElementById('matrixPopup').classList.remove('active');
+}
+function solveMatrix() {
+  const A = document.getElementById('matrixA').value;
+  const B = document.getElementById('matrixB').value;
+  const resultDiv = document.getElementById('matrixResult');
+  try {
+    const matA = math.evaluate(A);
+    const matB = math.evaluate(B);
+    const solution = math.multiply(math.inv(matA), matB);
+    resultDiv.textContent = `X = ${math.format(solution)}`;
+  } catch {
+    resultDiv.innerHTML = "<span style='color:#f66'>Invalid matrices.</span>";
+  }
+}
+</script>
+</body>
+</html>
