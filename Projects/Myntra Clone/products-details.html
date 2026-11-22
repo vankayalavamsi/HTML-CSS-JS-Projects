@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Product Details | Myntra Clone</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/product-details.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <a href="index.html">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Myntra_Logo.png/800px-Myntra_Logo.png">
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
+    </ul>
+
+</nav>
+
+<section class="product-details">
+
+    <div class="product-image">
+
+        <img
+        id="productImage"
+        src=""
+        alt="Product">
+
+    </div>
+
+    <div class="product-info">
+
+        <h1 id="productName"></h1>
+
+        <h2 id="productPrice"></h2>
+
+        <p id="productDescription"></p>
+
+        <div class="btn-group">
+
+            <button
+            id="cartBtn"
+            class="cart-btn">
+
+            Add To Cart
+
+            </button>
+
+            <button
+            id="wishlistBtn"
+            class="wishlist-btn">
+
+            Wishlist
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="similar-products">
+
+    <h2>Similar Products</h2>
+
+    <div id="similarContainer">
+
+    </div>
+
+</section>
+
+<script src="js/product-details.js"></script>
+
+</body>
+</html>

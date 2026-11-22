@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Roadster Shirt",
+    "price": 899,
+    "image": "images/shirt.jpg",
+    "category": "Men"
+  },
+  {
+    "id": 2,
+    "name": "Nike Shoes",
+    "price": 2499,
+    "image": "images/shoes.jpg",
+    "category": "Footwear"
+  },
+  {
+    "id": 3,
+    "name": "Zara Dress",
+    "price": 1299,
+    "image": "images/dress.jpg",
+    "category": "Women"
+  }
+]
